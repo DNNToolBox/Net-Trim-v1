@@ -1,5 +1,5 @@
 # Net-Trim (first version)
-This page contains the first version of Net-Trim, which addresses the **regularized form** of the Net-Trim convex program discussed in the [NIPS paper](https://papers.nips.cc/paper/6910-net-trim-convex-pruning-of-deep-neural-networks-with-performance-guarantee).
+This page contains the first version of Net-Trim, which addresses the **regularized form** of the Net-Trim convex program discussed in the [NIPS (2017) paper](https://papers.nips.cc/paper/6910-net-trim-convex-pruning-of-deep-neural-networks-with-performance-guarantee).
 
 See *main.py* for an example of network training followed by a pruning. The *Additional Material* folder contains the NIPS paper, presentation and supplementary files. 
 
