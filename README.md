@@ -8,5 +8,5 @@ Starting June 20th, 2018, a new version of Net-Trim addressing the **original co
 
 * [**Latest Net-Trim Website and Manual**](https://dnntoolbox.github.io/Net-Trim/)
 * [**Latest Code Github Page**](https://github.com/DNNToolBox/Net-Trim)
-* [**2018 Journal Preprint**](https://arxiv.org)
+* [**2018 Journal Preprint**](https://arxiv.org/pdf/1806.06457.pdf)
 
