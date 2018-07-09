@@ -74,6 +74,9 @@ if __name__ == '__main__':
     data_file_name = 'data.mat'
     if os.path.isfile(data_file_name):
         data = sio.loadmat(data_file_name)
+        for name, value in data.items():
+            if name[0]=='b' and value.ndim==2 and value.shape[0]==1:
+                data[name] = value.reshape(-1)
     else:
         data = train_neural_network(model_size=[784, 300, 10], file_name=data_file_name)
 
@@ -104,7 +107,7 @@ if __name__ == '__main__':
         elapsed_time = time.time() - start
         print('tensorflow-based execution time:', elapsed_time)
         refined_W[:, i] = w_tf[:-1]
-        refined_b[0, i] = w_tf[-1]
+        refined_b[i] = w_tf[-1]
 
         total_time += elapsed_time
 
