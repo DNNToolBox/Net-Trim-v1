@@ -12,17 +12,19 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 
-def train_neural_network(model_size, file_name):
+def train_neural_network(model_size, file_name, initial_weights=None, epochs=1):
     mnist = input_data.read_data_sets("Z:/Data/MNIST/", one_hot=True)
 
     batch_size = 64
-    epochs = 1
     sample_number = 10000
     sample_number = (sample_number // batch_size - 1) * batch_size
 
     train_x = mnist.train.images[0:(sample_number + batch_size), :]
     train_y = mnist.train.labels[0:(sample_number + batch_size), :]
-    model = nn_model.GeneralSoftmaxModel(model_size=model_size, regulize=True, regularization_gain=5e-4)
+    if initial_weights is not None:
+        model = nn_model.GeneralSoftmaxModel(initial_weights=initial_weights, regulize=True, regularization_gain=5e-4)
+    else:
+        model = nn_model.GeneralSoftmaxModel(model_size=model_size, regulize=True, regularization_gain=5e-4)
 
     model.initialize()
 
@@ -62,7 +64,7 @@ def train_neural_network(model_size, file_name):
     for i, b in zip(itertools.count(), nn_biases):
         mat_biases['b{}'.format(i)] = b
 
-    num_layers = len(model_size)
+    num_layers = len(nn_weights)
     data = {'N': num_layers, **mat_signals, **mat_weights, **mat_biases}
     sio.savemat(file_name, data)
     # ====================================================================
@@ -117,3 +119,10 @@ if __name__ == '__main__':
     print('number of non-zero values in the original weight matrix = ', np.count_nonzero(original_W == 0))
     print('number of non-zero values in the refined weight matrix = ', np.count_nonzero(refined_W == 0))
     print('total elapsed time = ', total_time)
+
+    # compute accuracy with/without fine tuning
+    initial_weights = []
+    for i in range(int(data['N'])):
+        initial_weights.append([ data['W{}'.format(i)], data['b{}'.format(i)] ])
+    initial_weights[0] = [ refined_W, refined_b ]
+    train_neural_network(model_size=None, file_name=data_file_name, initial_weights=initial_weights, epochs=1)

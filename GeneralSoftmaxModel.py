@@ -58,7 +58,7 @@ class GeneralSoftmaxModel:
         with self._graph.as_default():
             self._x = tf.placeholder(self._computation_precision, [None, input_len])
             self._target = tf.placeholder(self._computation_precision, [None, output_len])
-            self._keep_prob = tf.placeholder(tf.float32, 1)
+            self._keep_prob = tf.placeholder(tf.float32)
 
             # create layers
             self._nn_signals = [self._x]
@@ -71,7 +71,7 @@ class GeneralSoftmaxModel:
             for h in range(num_layers):
                 init_w = initial_weights[h][0]
                 init_b = initial_weights[h][1]
-                if (init_w.shape[0] != out_dim) or (init_w.shape[1] != init_b.shape):
+                if (init_w.shape[0] != out_dim) or (init_w.shape[1] != init_b.size):
                     raise ValueError('Inconsistent dimensions for initial weights.')
 
                 W = tf.Variable(init_w)
